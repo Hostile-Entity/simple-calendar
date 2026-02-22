@@ -1,0 +1,10 @@
+Simple PWA for the phone.
+Preffered tech: React + ts + vite + a local db
+The app will be installed on the phone through the browser.
+
+Main requirements:
+Calendar where the current month is visible by default with the current date highlighted.
+Simple interface, where I can scroll to different months and set color for each date and a simple note.
+The color options should be 10 options.
+When the color is selected the square for that day should be of that color (with tiny preview of the simple note if present).
+The data can be stored only on local device.

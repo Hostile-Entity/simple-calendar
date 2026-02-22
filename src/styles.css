@@ -1,0 +1,365 @@
+:root {
+  font-family: "Nunito", "Avenir Next", "Segoe UI", sans-serif;
+  color: #102a2a;
+  background: radial-gradient(circle at top, #e8f5f4 0%, #f7fbfb 42%, #ffffff 100%);
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.appShell {
+  min-height: 100vh;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0.75rem 0 1rem;
+}
+
+.appHeader,
+.monthHeader {
+  padding-inline: 0.5rem;
+}
+
+.appHeader {
+  position: relative;
+  padding-right: 2.9rem;
+}
+
+.appHeader h1 {
+  margin: 0;
+  font-size: 1.55rem;
+  letter-spacing: 0.02em;
+}
+
+.appHeader p {
+  margin: 0.35rem 0 0;
+  color: #335c5b;
+  font-size: 0.95rem;
+}
+
+.settingsIconButton {
+  position: absolute;
+  right: 0.5rem;
+  top: 0;
+  width: 2.1rem;
+  height: 2.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #b5d3d0;
+  border-radius: 0.55rem;
+  background: #ffffffea;
+  color: #155e5a;
+}
+
+.settingsIconButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.settingsIconButton img {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
+}
+
+.monthHeader {
+  margin: 1rem 0 0.7rem;
+}
+
+.monthHeader h2 {
+  margin: 0;
+  font-size: 1.18rem;
+}
+
+.monthPager {
+  position: relative;
+}
+
+.monthSwipeArea {
+  touch-action: pan-y;
+}
+
+.pagerButtons {
+  position: absolute;
+  top: -3rem;
+  right: 0;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.navButton {
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid #b5d3d0;
+  border-radius: 0.6rem;
+  background: #ffffffea;
+  color: #155e5a;
+  font-size: 1.15rem;
+}
+
+.calendarGridWrap {
+  background: #ffffffdc;
+  border-top: 1px solid #d0e7e4;
+  border-bottom: 1px solid #d0e7e4;
+  border-radius: 0;
+  box-shadow: 0 14px 34px rgba(26, 85, 81, 0.08);
+  padding: 0.45rem 0;
+}
+
+.weekdayRow {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 0.35rem;
+  padding-inline: 0.2rem;
+}
+
+.weekdayLabel {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #3f6c6a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.12rem 0;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid #d7ebe9;
+}
+
+.dayCell {
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  border-right: 1px solid #d7ebe9;
+  border-bottom: 1px solid #d7ebe9;
+  background: #ffffff;
+  padding: 0.24rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+  color: #153534;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.dayCell:active {
+  transform: scale(0.985);
+}
+
+.dayCell.otherMonth {
+  opacity: 0.5;
+}
+
+.dayCell.today {
+  outline: 2px solid #0f766e;
+  outline-offset: -2px;
+}
+
+.dayCell.selected {
+  outline: 2px solid rgba(15, 118, 110, 0.45);
+  outline-offset: -2px;
+}
+
+.dayCell.today.selected {
+  outline: 2px solid #0f766e;
+}
+
+.dayNumber {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.notePreview {
+  font-size: 0.66rem;
+  line-height: 1.15;
+  color: #1f4543;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendarGrid .dayCell:nth-child(7n) {
+  border-right: none;
+}
+
+.calendarGrid .dayCell:nth-last-child(-n + 7) {
+  border-bottom: none;
+}
+
+.editorBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 38, 38, 0.34);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 20;
+}
+
+.settingsBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 38, 38, 0.34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.settingsPanel {
+  width: min(360px, calc(100% - 1.3rem));
+  min-height: 220px;
+  background: #fff;
+  border: 1px solid #d0e7e4;
+  border-radius: 0.9rem;
+  box-shadow: 0 20px 44px rgba(26, 85, 81, 0.18);
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.settingsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settingsHeader h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.dangerButton {
+  border: 1px solid #f2b1aa;
+  border-radius: 0.65rem;
+  background: #fff2f1;
+  color: #aa3122;
+  padding: 0.62rem 0.8rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.settingsVersion {
+  margin: auto 0 0;
+  text-align: center;
+  color: #5d7f7c;
+  font-size: 0.84rem;
+}
+
+.editorPanel {
+  width: min(700px, 100%);
+  background: #fff;
+  border-radius: 1.1rem 1.1rem 0 0;
+  padding: 0.85rem 0.95rem 1rem;
+  max-height: 88vh;
+  overflow: auto;
+}
+
+.editorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.editorHeader h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.closeButton,
+.ghostButton,
+.primaryButton {
+  border-radius: 0.62rem;
+  border: none;
+  padding: 0.52rem 0.86rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.closeButton {
+  background: #e7f5f3;
+  color: #0f766e;
+}
+
+.editorLabel {
+  display: block;
+  margin: 0.8rem 0 0.45rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #2f5b5a;
+}
+
+.colorRow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.colorOption {
+  border: 1px solid #b7d2cf;
+  border-radius: 0.72rem;
+  min-height: 2.25rem;
+}
+
+.colorOption.selected {
+  border-color: #0f766e;
+  border-width: 2px;
+  box-shadow: 0 0 0 2px #ffffff inset;
+}
+
+.noteInput {
+  width: 100%;
+  border: 1px solid #cfe2df;
+  border-radius: 0.62rem;
+  padding: 0.68rem;
+  font: inherit;
+  resize: vertical;
+}
+
+.editorActions {
+  margin-top: 0.8rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.ghostButton {
+  background: #f2f7f6;
+  color: #315d5b;
+}
+
+.primaryButton {
+  background: #0f766e;
+  color: #fff;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
