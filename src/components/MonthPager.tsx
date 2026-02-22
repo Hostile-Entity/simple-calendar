@@ -36,6 +36,10 @@ export default function MonthPager({ children, onMonthChange }: MonthPagerProps)
 
   return (
     <section className="monthPager">
+      <div className="monthSwipeArea" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        {children}
+      </div>
+
       <div className="pagerButtons" aria-hidden="true">
         <button type="button" className="navButton" onClick={() => onMonthChange(-1)}>
           <span aria-hidden="true">&#x2039;</span>
@@ -45,10 +49,6 @@ export default function MonthPager({ children, onMonthChange }: MonthPagerProps)
           <span aria-hidden="true">&#x203A;</span>
           <span className="srOnly">Next month</span>
         </button>
-      </div>
-
-      <div className="monthSwipeArea" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-        {children}
       </div>
     </section>
   );

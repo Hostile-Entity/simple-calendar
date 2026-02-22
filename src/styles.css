@@ -81,11 +81,10 @@ body {
 }
 
 .pagerButtons {
-  position: absolute;
-  top: -3rem;
-  right: 0;
   display: flex;
+  justify-content: flex-end;
   gap: 0.35rem;
+  padding: 0.5rem 0.5rem 0;
 }
 
 .navButton {
