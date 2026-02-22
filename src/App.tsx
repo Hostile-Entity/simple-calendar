@@ -113,10 +113,8 @@ export default function App(): JSX.Element {
           onClick={() => setIsSettingsOpen(true)}
           aria-label="Open settings"
         >
-          <img src="/icons/settings.svg" alt="" aria-hidden="true" />
+          <img src={`${import.meta.env.BASE_URL}icons/settings.svg`} alt="" aria-hidden="true" />
         </button>
-        <h1>Simple Calendar</h1>
-        <p>Swipe left or right to switch months</p>
       </header>
 
       <section className="monthHeader" aria-live="polite">

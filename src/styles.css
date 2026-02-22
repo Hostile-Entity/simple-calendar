@@ -34,18 +34,7 @@ body {
 .appHeader {
   position: relative;
   padding-right: 2.9rem;
-}
-
-.appHeader h1 {
-  margin: 0;
-  font-size: 1.55rem;
-  letter-spacing: 0.02em;
-}
-
-.appHeader p {
-  margin: 0.35rem 0 0;
-  color: #335c5b;
-  font-size: 0.95rem;
+  min-height: 2.2rem;
 }
 
 .settingsIconButton {
@@ -75,7 +64,7 @@ body {
 }
 
 .monthHeader {
-  margin: 1rem 0 0.7rem;
+  margin: 0.2rem 0 0.7rem;
 }
 
 .monthHeader h2 {
