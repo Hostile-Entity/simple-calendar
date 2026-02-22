@@ -12,7 +12,7 @@ import {
 } from "./db/calendarDb";
 import { addMonths, formatMonthLabel, getMonthRange, startOfMonth } from "./utils/date";
 
-const APP_VERSION = "v0.0.2";
+const APP_VERSION = "v0.0.3";
 
 function toEntriesMap(entries: DayEntry[]): Record<string, DayEntry> {
   return entries.reduce<Record<string, DayEntry>>((acc, entry) => {
