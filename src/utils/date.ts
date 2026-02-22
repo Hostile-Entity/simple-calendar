@@ -1,4 +1,5 @@
 const WEEKDAYS_MONDAY_FIRST = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const MONTH_EMOJIS = ["☃️", "💘", "🌱", "🌷", "🌸", "☀️", "🏖️", "🍉", "🍂", "🎃", "🧣", "🎄"];
 
 export interface DayCell {
   date: Date;
@@ -28,10 +29,12 @@ export function formatDateKey(date: Date): string {
 }
 
 export function formatMonthLabel(date: Date): string {
-  return new Intl.DateTimeFormat("en-US", {
+  const monthLabel = new Intl.DateTimeFormat("en-US", {
     month: "long",
     year: "numeric"
   }).format(date);
+
+  return `${monthLabel} ${MONTH_EMOJIS[date.getMonth()]}`;
 }
 
 export function isToday(date: Date): boolean {

@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["icons/pwa-192.svg", "icons/pwa-512.svg"],
+      includeAssets: ["icons/pwa-192.png", "icons/pwa-512.png", "icons/settings.svg"],
       manifest: {
         name: "Simple Calendar",
         short_name: "Calendar",
@@ -18,15 +18,15 @@ export default defineConfig({
         theme_color: "#0f766e",
         icons: [
           {
-            src: "/icons/pwa-192.svg",
+            src: "/icons/pwa-192.png",
             sizes: "192x192",
-            type: "image/svg+xml",
+            type: "image/png",
             purpose: "any"
           },
           {
-            src: "/icons/pwa-512.svg",
+            src: "/icons/pwa-512.png",
             sizes: "512x512",
-            type: "image/svg+xml",
+            type: "image/png",
             purpose: "any"
           }
         ]
