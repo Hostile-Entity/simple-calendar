@@ -131,12 +131,12 @@ highlight, replay window and tests follow these constants automatically.
 - The note, steady 30-petal flow spanning the full screen width edge to edge,
   reversed size-based scroll depth, a warm paper letter,
   responsive roses and independent music pause/resume match the selected preview.
-  Motion respects the device's reduced-motion setting.
+  Birthday animations run even when the device's reduced-motion setting is enabled.
 - “Для тебя” opens a pale-yellow paper letter with a subtle gradient and grain,
   without animated sunlight or leaf/window shadows. The message and purple
   closing line are unchanged. A single 24-piece confetti shower plays on opening;
   it never repeats or schedules timers. Pieces are removed on finish, close,
-  tab hiding, or reduced-motion changes.
+  or tab hiding.
 - Images, fonts and the supplied MP3 live under `public/birthday/`; the PWA
   precaches them for offline use after the updated app has loaded online. This
   adds approximately 6 MB to the initial/update cache; no third-party music or

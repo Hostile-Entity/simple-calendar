@@ -23,7 +23,7 @@ import "./birthday/recall.css";
 
 const BirthdaySurprise = lazy(() => import("./birthday/BirthdaySurprise"));
 
-const APP_VERSION = "v0.0.5";
+const APP_VERSION = "v0.0.6";
 
 function toEntriesMap(entries: DayEntry[]): Record<string, DayEntry> {
   return entries.reduce<Record<string, DayEntry>>((acc, entry) => {

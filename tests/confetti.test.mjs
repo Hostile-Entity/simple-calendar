@@ -48,7 +48,7 @@ test("letter confetti is one bounded shower without timers or repeat scheduling"
     assert.equal(layer.children.length, 0, "finished pieces are removed, not respawned");
     reduced = true;
     showBirthdayConfetti(layer);
-    assert.equal(layer.children.length, 0);
+    assert.equal(layer.children.length, 24, "confetti still runs with reduced motion enabled");
     reduced = false;
     document.hidden = true;
     showBirthdayConfetti(layer);

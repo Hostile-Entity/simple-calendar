@@ -1,7 +1,7 @@
 /** One small shower per opening. CSS handles flight; no scheduling or frame loop. */
 export function showBirthdayConfetti(layer: HTMLDivElement): void {
   layer.replaceChildren();
-  if (document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (document.hidden) return;
   const fragment = document.createDocumentFragment();
   const colors = ["#9b72bd", "#c5a6de", "#d6b46c", "#c989a4", "#93b0a0"];
   for (let index = 0; index < 24; index++) {

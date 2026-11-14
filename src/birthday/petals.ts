@@ -1,6 +1,5 @@
 /** Imperative animation island with full cleanup, safe under React StrictMode. */
 export function mountBirthdayPetals(ambience: HTMLDivElement, app: HTMLElement): () => void {
-  const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
   const layer = document.createElement("div");
   layer.className = "birthdayDepthLayer";
   ambience.append(layer);
@@ -36,10 +35,10 @@ export function mountBirthdayPetals(ambience: HTMLDivElement, app: HTMLElement):
   let disposed = false;
   function schedule(refreshGeometry = false): void {
     geometryDirty ||= refreshGeometry;
-    if (disposed || frame || preference.matches || document.hidden) return;
+    if (disposed || frame || document.hidden) return;
     frame = requestAnimationFrame(() => {
       frame = 0;
-      if (disposed || preference.matches || document.hidden) return;
+      if (disposed || document.hidden) return;
       if (geometryDirty) {
         const viewport = ambience.clientHeight;
         scrollRange = Math.max(0, document.documentElement.scrollHeight - document.documentElement.clientHeight);
@@ -58,8 +57,8 @@ export function mountBirthdayPetals(ambience: HTMLDivElement, app: HTMLElement):
   const scroll = (): void => schedule();
   const resize = (): void => schedule(true);
   function updateMotion(): void {
-    app.classList.toggle("birthdayMotionPaused", preference.matches || document.hidden);
-    if (preference.matches || document.hidden) { cancelAnimationFrame(frame); frame = 0; }
+    app.classList.toggle("birthdayMotionPaused", document.hidden);
+    if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
     else schedule(true);
   }
   const observer = new ResizeObserver(resize);
@@ -67,7 +66,6 @@ export function mountBirthdayPetals(ambience: HTMLDivElement, app: HTMLElement):
   window.addEventListener("scroll", scroll, { passive: true });
   window.addEventListener("resize", resize, { passive: true });
   document.addEventListener("visibilitychange", updateMotion);
-  preference.addEventListener("change", updateMotion);
   updateMotion();
   return () => {
     disposed = true;
@@ -76,7 +74,6 @@ export function mountBirthdayPetals(ambience: HTMLDivElement, app: HTMLElement):
     window.removeEventListener("scroll", scroll);
     window.removeEventListener("resize", resize);
     document.removeEventListener("visibilitychange", updateMotion);
-    preference.removeEventListener("change", updateMotion);
     app.classList.remove("birthdayMotionPaused");
     layer.remove();
   };

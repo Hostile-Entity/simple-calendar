@@ -102,8 +102,3 @@
   100% { transform: translate(var(--drift),110dvh) rotate(calc(var(--start-turn) + var(--turn))) scaleX(.65); opacity: 0; }
 }
 @keyframes birthdayLetterReveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-@media (prefers-reduced-motion: reduce) {
-  .birthdayHero *, .birthdayAmbience *, .birthdayAmbience *::after, .birthdayNote * { animation: none !important; transition: none !important; }
-  .birthdayDepthLayer { display: none; }
-  .birthdayRoseBouquet, .birthdayRoseHalo, .birthdaySculptureRing { transform: none; }
-}

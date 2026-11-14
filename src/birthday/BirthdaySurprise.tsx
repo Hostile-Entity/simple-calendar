@@ -37,14 +37,10 @@ export default function BirthdaySurprise({ music, theme }: BirthdaySurpriseProps
   }, []);
 
   useEffect(() => {
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const clear = (): void => { confetti.current?.replaceChildren(); };
-    const reduce = (): void => { if (preference.matches) clear(); };
     const hide = (): void => { if (document.hidden) clear(); };
-    preference.addEventListener("change", reduce);
     document.addEventListener("visibilitychange", hide);
     return () => {
-      preference.removeEventListener("change", reduce);
       document.removeEventListener("visibilitychange", hide);
       clear();
     };
