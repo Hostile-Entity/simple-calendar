@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import CalendarGrid from "./components/CalendarGrid";
 import DayEditor from "./components/DayEditor";
 import MonthPager from "./components/MonthPager";
@@ -11,8 +11,15 @@ import {
   type DayEntry
 } from "./db/calendarDb";
 import { addMonths, formatMonthLabel, getMonthRange, startOfMonth } from "./utils/date";
+import { getSavedTheme, saveTheme, type Theme } from "./utils/theme";
+import { getBirthdayAvailability, getBirthdayDateKey, localDayKey } from "./birthday/calendar";
+import { useLocalDay } from "./birthday/useLocalDay";
+import { createBirthdayMusic } from "./birthday/music";
+import "./birthday/recall.css";
 
-const APP_VERSION = "v0.0.3";
+const BirthdaySurprise = lazy(() => import("./birthday/BirthdaySurprise"));
+
+const APP_VERSION = "v0.0.5";
 
 function toEntriesMap(entries: DayEntry[]): Record<string, DayEntry> {
   return entries.reduce<Record<string, DayEntry>>((acc, entry) => {
@@ -26,6 +33,28 @@ export default function App(): JSX.Element {
   const [entriesByDate, setEntriesByDate] = useState<Record<string, DayEntry>>({});
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>(getSavedTheme);
+  const today = useLocalDay();
+  const birthdayAvailability = getBirthdayAvailability(today);
+  const dayKey = localDayKey(today);
+  const [openedBirthdayDay, setOpenedBirthdayDay] = useState<string | null>(null);
+  const [birthdayMusic] = useState(createBirthdayMusic);
+  const birthdayVisible = birthdayAvailability === "birthday" ||
+    (birthdayAvailability === "replay" && openedBirthdayDay === dayKey);
+
+  useEffect(() => {
+    if (!birthdayVisible) {
+      birthdayMusic.stop();
+      return;
+    }
+    birthdayMusic.start();
+    return () => birthdayMusic.stop();
+  }, [birthdayVisible, birthdayMusic]);
+
+  function changeTheme(nextTheme: Theme): void {
+    saveTheme(nextTheme);
+    setTheme(nextTheme);
+  }
 
   const selectedEntry = selectedDate ? entriesByDate[selectedDate] : undefined;
   const monthTitle = useMemo(() => formatMonthLabel(visibleMonth), [visibleMonth]);
@@ -105,8 +134,25 @@ export default function App(): JSX.Element {
   }
 
   return (
-    <main className="appShell">
+    <main className={`appShell${birthdayVisible ? " birthdayMode" : ""}`}>
       <header className="appHeader">
+        {birthdayAvailability === "replay" ? (
+          <button type="button" className="birthdayRecallButton"
+            lang={birthdayVisible ? "en" : "ru"}
+            aria-expanded={birthdayVisible}
+            onClick={() => {
+              if (birthdayVisible) {
+                birthdayMusic.stop();
+                setOpenedBirthdayDay(null);
+              } else {
+                // Start inside the user gesture, before loading the lazy scene.
+                birthdayMusic.start();
+                setOpenedBirthdayDay(dayKey);
+              }
+            }}>
+            {birthdayVisible ? "Back to calendar" : "Для тебя ♡"}
+          </button>
+        ) : null}
         <button
           type="button"
           className="settingsIconButton"
@@ -117,18 +163,27 @@ export default function App(): JSX.Element {
         </button>
       </header>
 
-      <section className="monthHeader" aria-live="polite">
-        <h2>{monthTitle}</h2>
-      </section>
+      {birthdayVisible ? (
+        <Suspense fallback={null}>
+          <BirthdaySurprise music={birthdayMusic} theme={theme} />
+        </Suspense>
+      ) : null}
 
-      <MonthPager onMonthChange={changeMonth}>
-        <CalendarGrid
-          monthDate={visibleMonth}
-          entriesByDate={entriesByDate}
-          selectedDate={selectedDate}
-          onSelectDate={setSelectedDate}
-        />
-      </MonthPager>
+      <div className="calendarViewport">
+        <section className="monthHeader" aria-live="polite">
+          <h2>{monthTitle}</h2>
+        </section>
+
+        <MonthPager onMonthChange={changeMonth}>
+          <CalendarGrid
+            monthDate={visibleMonth}
+            entriesByDate={entriesByDate}
+            selectedDate={selectedDate}
+            onSelectDate={setSelectedDate}
+            birthdayDateKey={birthdayVisible ? getBirthdayDateKey(today.getFullYear()) : undefined}
+          />
+        </MonthPager>
+      </div>
 
       <DayEditor
         dateKey={selectedDate}
@@ -140,6 +195,8 @@ export default function App(): JSX.Element {
       <SettingsModal
         isOpen={isSettingsOpen}
         version={APP_VERSION}
+        theme={theme}
+        onThemeChange={changeTheme}
         onClose={() => setIsSettingsOpen(false)}
         onDeleteAllData={handleDeleteAllData}
       />

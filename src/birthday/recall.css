@@ -1,0 +1,15 @@
+.calendarViewport { display: contents; }
+.birthdayRecallButton {
+  min-height: 2.1rem;
+  max-width: calc(100% - .5rem);
+  padding: .35rem .8rem;
+  border: 1px solid #775293;
+  border-radius: .6rem;
+  background: #775293;
+  color: #fffafa;
+  font: 600 .8rem/1.25 "Nunito", "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.birthdayMode .dayCell.birthdayDay { position: relative; outline: 2px solid #8866a0; outline-offset: -2px; }
+.birthdayFlower { position: absolute; bottom: 3px; right: 3px; width: 22px; height: 22px; color: #8866a0; pointer-events: none; }
+.birthdayDay .notePreview { position: relative; z-index: 1; }

@@ -1,8 +1,81 @@
 :root {
+  color-scheme: light;
+  --text: #102a2a;
+  --page-background: radial-gradient(circle at top, #e8f5f4 0%, #f7fbfb 42%, #ffffff 100%);
+  --button-border: #b5d3d0;
+  --button-background: #ffffffea;
+  --button-text: #155e5a;
+  --grid-background: #ffffffdc;
+  --border: #d0e7e4;
+  --grid-border: #d7ebe9;
+  --grid-shadow: 0 14px 34px rgba(26, 85, 81, 0.08);
+  --muted-text: #3f6c6a;
+  --cell-background: #ffffff;
+  --cell-text: #153534;
+  --accent: #0f766e;
+  --selected-outline: rgba(15, 118, 110, 0.45);
+  --note-text: #1f4543;
+  --backdrop: rgba(15, 38, 38, 0.34);
+  --panel-background: #fff;
+  --panel-shadow: 0 20px 44px rgba(26, 85, 81, 0.18);
+  --danger-border: #f2b1aa;
+  --danger-background: #fff2f1;
+  --danger-text: #aa3122;
+  --version-text: #5d7f7c;
+  --close-background: #e7f5f3;
+  --label-text: #2f5b5a;
+  --swatch-border: #b7d2cf;
+  --input-border: #cfe2df;
+  --input-background: #fff;
+  --placeholder-text: #757575;
+  --ghost-background: #f2f7f6;
+  --ghost-text: #315d5b;
+  --primary-background: #0f766e;
+  --primary-text: #fff;
   font-family: "Nunito", "Avenir Next", "Segoe UI", sans-serif;
-  color: #102a2a;
-  background: radial-gradient(circle at top, #e8f5f4 0%, #f7fbfb 42%, #ffffff 100%);
+  color: var(--text);
+  background: var(--page-background);
   text-rendering: optimizeLegibility;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #e4efee;
+  --page-background: radial-gradient(circle at top, #172829 0%, #101819 42%, #0c1213 100%);
+  --button-border: #3e5c59;
+  --button-background: #203130;
+  --button-text: #a2e0d8;
+  --grid-background: #131f20;
+  --border: #334c4b;
+  --grid-border: #304443;
+  --grid-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+  --muted-text: #a4bfbc;
+  --cell-background: #192526;
+  --cell-text: #e5efee;
+  --accent: #65d7c6;
+  --selected-outline: #95bcb6;
+  --note-text: #c9dedb;
+  --backdrop: rgba(0, 0, 0, 0.65);
+  --panel-background: #182425;
+  --panel-shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
+  --danger-border: #8f4945;
+  --danger-background: #3c2324;
+  --danger-text: #ffb4aa;
+  --version-text: #a1b9b5;
+  --close-background: #253e3b;
+  --label-text: #b9d2ce;
+  --swatch-border: #708b85;
+  --input-border: #48635f;
+  --input-background: #101b1c;
+  --placeholder-text: #9aafac;
+  --ghost-background: #293b39;
+  --ghost-text: #c3ded8;
+  --primary-background: #65d7c6;
+  --primary-text: #102a2a;
+}
+
+:root[data-theme="dark"] .settingsIconButton img {
+  filter: invert(1);
 }
 
 * {
@@ -48,10 +121,10 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #b5d3d0;
+  border: 1px solid var(--button-border);
   border-radius: 0.55rem;
-  background: #ffffffea;
-  color: #155e5a;
+  background: var(--button-background);
+  color: var(--button-text);
 }
 
 .settingsIconButton svg {
@@ -92,19 +165,19 @@ body {
 .navButton {
   width: 2.1rem;
   height: 2.1rem;
-  border: 1px solid #b5d3d0;
+  border: 1px solid var(--button-border);
   border-radius: 0.6rem;
-  background: #ffffffea;
-  color: #155e5a;
+  background: var(--button-background);
+  color: var(--button-text);
   font-size: 1.15rem;
 }
 
 .calendarGridWrap {
-  background: #ffffffdc;
-  border-top: 1px solid #d0e7e4;
-  border-bottom: 1px solid #d0e7e4;
+  background: var(--grid-background);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   border-radius: 0;
-  box-shadow: 0 14px 34px rgba(26, 85, 81, 0.08);
+  box-shadow: var(--grid-shadow);
   padding: 0.45rem 0;
 }
 
@@ -120,7 +193,7 @@ body {
   text-align: center;
   font-size: 0.72rem;
   font-weight: 700;
-  color: #3f6c6a;
+  color: var(--muted-text);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0.12rem 0;
@@ -130,7 +203,7 @@ body {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 0;
-  border: 1px solid #d7ebe9;
+  border: 1px solid var(--grid-border);
 }
 
 .dayCell {
@@ -138,15 +211,15 @@ body {
   min-height: 0;
   border: none;
   border-radius: 0;
-  border-right: 1px solid #d7ebe9;
-  border-bottom: 1px solid #d7ebe9;
-  background: #ffffff;
+  border-right: 1px solid var(--grid-border);
+  border-bottom: 1px solid var(--grid-border);
+  background: var(--cell-background);
   padding: 0.24rem;
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
   text-align: left;
-  color: #153534;
+  color: var(--cell-text);
   transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
@@ -159,17 +232,17 @@ body {
 }
 
 .dayCell.today {
-  outline: 2px solid #0f766e;
+  outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
 
 .dayCell.selected {
-  outline: 2px solid rgba(15, 118, 110, 0.45);
+  outline: 2px solid var(--selected-outline);
   outline-offset: -2px;
 }
 
 .dayCell.today.selected {
-  outline: 2px solid #0f766e;
+  outline: 2px solid var(--accent);
 }
 
 .dayNumber {
@@ -180,10 +253,18 @@ body {
 .notePreview {
   font-size: 0.66rem;
   line-height: 1.15;
-  color: #1f4543;
+  color: var(--note-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.dayCell.hasColor {
+  color: #153534;
+}
+
+.dayCell.hasColor .notePreview {
+  color: #1f4543;
 }
 
 .calendarGrid .dayCell:nth-child(7n) {
@@ -197,7 +278,7 @@ body {
 .editorBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 38, 38, 0.34);
+  background: var(--backdrop);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -207,7 +288,7 @@ body {
 .settingsBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 38, 38, 0.34);
+  background: var(--backdrop);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,10 +298,10 @@ body {
 .settingsPanel {
   width: min(360px, calc(100% - 1.3rem));
   min-height: 220px;
-  background: #fff;
-  border: 1px solid #d0e7e4;
+  background: var(--panel-background);
+  border: 1px solid var(--border);
   border-radius: 0.9rem;
-  box-shadow: 0 20px 44px rgba(26, 85, 81, 0.18);
+  box-shadow: var(--panel-shadow);
   padding: 0.9rem;
   display: flex;
   flex-direction: column;
@@ -239,10 +320,10 @@ body {
 }
 
 .dangerButton {
-  border: 1px solid #f2b1aa;
+  border: 1px solid var(--danger-border);
   border-radius: 0.65rem;
-  background: #fff2f1;
-  color: #aa3122;
+  background: var(--danger-background);
+  color: var(--danger-text);
   padding: 0.62rem 0.8rem;
   font-weight: 700;
   font-size: 0.9rem;
@@ -251,13 +332,13 @@ body {
 .settingsVersion {
   margin: auto 0 0;
   text-align: center;
-  color: #5d7f7c;
+  color: var(--version-text);
   font-size: 0.84rem;
 }
 
 .editorPanel {
   width: min(700px, 100%);
-  background: #fff;
+  background: var(--panel-background);
   border-radius: 1.1rem 1.1rem 0 0;
   padding: 0.85rem 0.95rem 1rem;
   max-height: 88vh;
@@ -287,8 +368,8 @@ body {
 }
 
 .closeButton {
-  background: #e7f5f3;
-  color: #0f766e;
+  background: var(--close-background);
+  color: var(--accent);
 }
 
 .editorLabel {
@@ -296,7 +377,7 @@ body {
   margin: 0.8rem 0 0.45rem;
   font-size: 0.84rem;
   font-weight: 700;
-  color: #2f5b5a;
+  color: var(--label-text);
 }
 
 .colorRow {
@@ -306,20 +387,22 @@ body {
 }
 
 .colorOption {
-  border: 1px solid #b7d2cf;
+  border: 1px solid var(--swatch-border);
   border-radius: 0.72rem;
   min-height: 2.93rem;
 }
 
 .colorOption.selected {
-  border-color: #0f766e;
+  border-color: var(--accent);
   border-width: 2px;
-  box-shadow: 0 0 0 2px #ffffff inset;
+  box-shadow: 0 0 0 2px var(--panel-background) inset;
 }
 
 .noteInput {
   width: 100%;
-  border: 1px solid #cfe2df;
+  border: 1px solid var(--input-border);
+  background: var(--input-background);
+  color: var(--text);
   border-radius: 0.62rem;
   padding: 0.68rem;
   font: inherit;
@@ -334,13 +417,64 @@ body {
 }
 
 .ghostButton {
-  background: #f2f7f6;
-  color: #315d5b;
+  background: var(--ghost-background);
+  color: var(--ghost-text);
 }
 
 .primaryButton {
-  background: #0f766e;
-  color: #fff;
+  background: var(--primary-background);
+  color: var(--primary-text);
+}
+
+.noteInput::placeholder {
+  color: var(--placeholder-text);
+}
+
+.themePicker {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.themePicker legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.themeOptions {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.themeOption {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem;
+  border: 1px solid var(--button-border);
+  border-radius: 0.65rem;
+  background: var(--button-background);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.themeOption:has(input:checked) {
+  border-color: var(--accent);
+}
+
+.themeOption input {
+  accent-color: var(--accent);
+  margin: 0;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .srOnly {

@@ -100,3 +100,45 @@ What `npm run deploy` does:
 - All calendar entries are stored locally in browser IndexedDB.
 - No backend/API is used.
 - `Delete all data` in Settings clears all saved entries on that device/browser.
+
+## Birthday surprise (local implementation)
+
+The date is configured once in `src/birthday/calendar.ts`: `BIRTHDAY_MONTH = 10`
+(November, zero-based), `BIRTHDAY_DAY = 22` for the actual birthday. The displayed date, calendar
+highlight, replay window and tests follow these constants automatically.
+
+- Every **November 22**, the white-rose birthday scene appears above the real
+  calendar. Music attempts to start automatically; browsers that require a user
+  gesture start it on the first tap instead.
+- **November 23–29 inclusive**: the normal calendar opens, with just a purple
+  “Для тебя ♡” button at the top. Nothing opens or plays until that button is
+  clicked. “Back to calendar” closes the scene and stops/releases its music.
+  Reloading on these dates always returns to the normal calendar.
+- November 30 through November 21: no birthday UI or audio is mounted. Local
+  midnight, app focus and returning from the background refresh eligibility.
+- The real calendar's data, editing, navigation and settings are unchanged.
+  The configured birthday gets a purple flower only while the birthday interface is open.
+  The surprise temporarily uses a light palette without changing the saved theme.
+- The note, steady 30-petal flow spanning the full screen width edge to edge,
+  reversed size-based scroll depth, a warm paper letter,
+  responsive roses and independent music pause/resume match the selected preview.
+  Motion respects the device's reduced-motion setting.
+- “Для тебя” opens a pale-yellow paper letter with a subtle gradient and grain,
+  without animated sunlight or leaf/window shadows. The message and purple
+  closing line are unchanged. A single 24-piece confetti shower plays on opening;
+  it never repeats or schedules timers. Pieces are removed on finish, close,
+  tab hiding, or reduced-motion changes.
+- Images, fonts and the supplied MP3 live under `public/birthday/`; the PWA
+  precaches them for offline use after the updated app has loaded online. This
+  adds approximately 6 MB to the initial/update cache; no third-party music or
+  font requests are made at runtime.
+
+Tests (Node 24+, no extra test dependencies):
+
+```sh
+node --test tests/*.test.mjs
+```
+
+The temporary design previews remain separate from the production feature.
+Building and running locally does not publish anything; do not run `npm run deploy`
+unless publication is explicitly intended.
