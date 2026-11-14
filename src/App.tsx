@@ -6,12 +6,16 @@ import SettingsModal from "./components/SettingsModal";
 import {
   clearAllEntries,
   deleteEntry,
+  getAllEntries,
   getEntriesInRange,
+  replaceAllEntries,
   upsertEntry,
   type DayEntry
 } from "./db/calendarDb";
 import { addMonths, formatMonthLabel, getMonthRange, startOfMonth } from "./utils/date";
 import { getSavedTheme, saveTheme, type Theme } from "./utils/theme";
+import { createBackup, parseBackup } from "./utils/backup";
+import { COLOR_OPTIONS } from "./constants/colors";
 import { getBirthdayAvailability, getBirthdayDateKey, localDayKey } from "./birthday/calendar";
 import { useLocalDay } from "./birthday/useLocalDay";
 import { createBirthdayMusic } from "./birthday/music";
@@ -34,6 +38,7 @@ export default function App(): JSX.Element {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>(getSavedTheme);
+  const [dataRevision, setDataRevision] = useState(0);
   const today = useLocalDay();
   const birthdayAvailability = getBirthdayAvailability(today);
   const dayKey = localDayKey(today);
@@ -60,6 +65,7 @@ export default function App(): JSX.Element {
   const monthTitle = useMemo(() => formatMonthLabel(visibleMonth), [visibleMonth]);
 
   useEffect(() => {
+    let cancelled = false;
     const prevMonth = addMonths(visibleMonth, -1);
     const nextMonth = addMonths(visibleMonth, 1);
     const prevRange = getMonthRange(prevMonth);
@@ -67,12 +73,13 @@ export default function App(): JSX.Element {
 
     getEntriesInRange(prevRange.start, nextRange.end)
       .then((entries) => {
-        setEntriesByDate(toEntriesMap(entries));
+        if (!cancelled) setEntriesByDate(toEntriesMap(entries));
       })
       .catch((error) => {
         console.error("Failed to load entries", error);
       });
-  }, [visibleMonth]);
+    return () => { cancelled = true; };
+  }, [visibleMonth, dataRevision]);
 
   function changeMonth(delta: number): void {
     setVisibleMonth((current) => addMonths(current, delta));
@@ -131,6 +138,35 @@ export default function App(): JSX.Element {
     setEntriesByDate({});
     setSelectedDate(null);
     setIsSettingsOpen(false);
+  }
+
+  async function handleExport(): Promise<void> {
+    const backup = createBackup(await getAllEntries(), theme);
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `simple-calendar-backup-${backup.exportedAt.slice(0, 10)}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function handleImport(file: File): Promise<boolean> {
+    const backup = parseBackup(await file.text(), COLOR_OPTIONS.length);
+    const confirmed = window.confirm(
+      `Restore ${backup.entries.length} calendar entries from this backup? ` +
+      "This will replace ALL saved colors, notes and your theme. Export a backup first if you want to keep your current data."
+    );
+    if (!confirmed) return false;
+
+    await replaceAllEntries(backup.entries);
+    changeTheme(backup.theme);
+    setEntriesByDate(toEntriesMap(backup.entries));
+    setSelectedDate(null);
+    setDataRevision((revision) => revision + 1);
+    return true;
   }
 
   return (
@@ -199,6 +235,8 @@ export default function App(): JSX.Element {
         onThemeChange={changeTheme}
         onClose={() => setIsSettingsOpen(false)}
         onDeleteAllData={handleDeleteAllData}
+        onExport={handleExport}
+        onImport={handleImport}
       />
     </main>
   );

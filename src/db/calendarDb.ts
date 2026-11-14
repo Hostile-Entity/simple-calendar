@@ -30,3 +30,14 @@ export async function deleteEntry(date: string): Promise<void> {
 export async function clearAllEntries(): Promise<void> {
   await db.dayEntries.clear();
 }
+
+export async function getAllEntries(): Promise<DayEntry[]> {
+  return db.dayEntries.toArray();
+}
+
+export async function replaceAllEntries(entries: DayEntry[]): Promise<void> {
+  await db.transaction("rw", db.dayEntries, async () => {
+    await db.dayEntries.clear();
+    await db.dayEntries.bulkAdd(entries);
+  });
+}

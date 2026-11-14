@@ -15,6 +15,7 @@ Simple mobile-first PWA calendar with per-day colors and notes, stored only on t
   - 10 color options (including white/reset option)
   - simple note
 - Settings modal with **Delete all data** (with confirmation).
+- JSON backup export and import in Settings, including all entries and the theme.
 - Month header includes a themed emoji for each month.
 - Works offline after first load (PWA + service worker).
 
@@ -100,6 +101,14 @@ What `npm run deploy` does:
 - All calendar entries are stored locally in browser IndexedDB.
 - No backend/API is used.
 - `Delete all data` in Settings clears all saved entries on that device/browser.
+- **Export JSON** in Settings downloads every saved entry (all months), including
+  colors, notes and timestamps, plus your theme preference.
+- **Import JSON** validates a Simple Calendar backup and asks for confirmation
+  before replacing all existing entries and restoring the theme. Invalid backups
+  leave existing data untouched; database restoration is atomic.
+- Backup files are processed locally, never uploaded. Keep them somewhere safe:
+  notes are plain text in the JSON file. Export before importing if you want to
+  preserve the current data.
 
 ## Birthday surprise (local implementation)
 

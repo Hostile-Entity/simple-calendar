@@ -296,6 +296,8 @@ body {
 }
 
 .settingsPanel {
+  max-height: calc(100dvh - 1.3rem);
+  overflow-y: auto;
   width: min(360px, calc(100% - 1.3rem));
   min-height: 220px;
   background: var(--panel-background);
@@ -430,17 +432,47 @@ body {
   color: var(--placeholder-text);
 }
 
-.themePicker {
+.themePicker,
+.backupPicker {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-.themePicker legend {
+.themePicker legend,
+.backupPicker legend {
   padding: 0;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   font-weight: 700;
+}
+
+.backupPicker p,
+.backupMessage {
+  margin: 0 0 0.6rem;
+  color: var(--muted-text);
+  font-size: 0.84rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.backupActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.backupActions button {
+  flex: 1;
+}
+
+.backupError {
+  color: var(--danger-text);
+}
+
+.settingsPanel button:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 
 .themeOptions {
